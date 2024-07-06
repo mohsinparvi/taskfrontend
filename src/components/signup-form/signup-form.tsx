@@ -4,12 +4,15 @@ import { ValidationErrors } from "../../types/login";
 import { loginUser } from "../../services/login-api/login-api";
 import { SingupFormData } from "../../types/signup";
 import { Link } from "react-router-dom";
+import Spinner from "../utils/spinner";
 
 const SignupForm = () => {
   const [input, setInput] = useState<SingupFormData>({
     username: "",
     password: "",
   });
+  const [isLoading, setIsloading] = useState(false);
+
   const [isShowPassowrd, setisShowPassword] = useState(false);
   const [errors, setErrors] = useState<ValidationErrors>({});
   const [apiError, setApiError] = useState<string>("");
@@ -41,6 +44,7 @@ const SignupForm = () => {
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {
+      setIsloading(true);
       const response = loginUser(input);
       response
         .then((res) => {
@@ -48,9 +52,11 @@ const SignupForm = () => {
         })
         .catch((err) => {
           console.error(err);
-          setApiError(err.message);
+          setApiError(err.reponse.data.message);
         })
-        .finally(() => {});
+        .finally(() => {
+          setIsloading(false);
+        });
     }
   };
   return (
@@ -193,12 +199,18 @@ const SignupForm = () => {
           {apiError && (
             <span className="text-red-500 text-sm font-normal">{apiError}</span>
           )}
-          <button
-            className="bg-secondary w-full py-3 flex  justify-center  text-base font-medium"
-            type="submit"
-          >
-            Continue
-          </button>
+          {isLoading ? (
+            <div className=" bg-secondary w-full py-3 flex  justify-center  text-base font-medium">
+              <Spinner />
+            </div>
+          ) : (
+            <button
+              className="bg-secondary w-full py-3 flex  justify-center  text-base font-medium"
+              type="submit"
+            >
+              Continue
+            </button>
+          )}
           <button className="w-full py-3 flex  justify-center  text-base font-medium border border-[##CFD8E1]">
             <img src={googleIcon} alt="google Icon" />
             <span>Sign in with Google</span>

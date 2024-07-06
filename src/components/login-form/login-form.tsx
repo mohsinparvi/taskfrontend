@@ -3,12 +3,14 @@ import { googleIcon } from "../../assets/login";
 import { LoginFormData, ValidationErrors } from "../../types/login";
 import { loginUser } from "../../services/login-api/login-api";
 import { Link } from "react-router-dom";
+import Spinner from "../utils/spinner";
 
 const LoginForm = () => {
   const [input, setInput] = useState<LoginFormData>({
     username: "",
     password: "",
   });
+  const [isLoading, setIsloading] = useState(false);
   const [isShowPassowrd, setisShowPassword] = useState(false);
   const [errors, setErrors] = useState<ValidationErrors>({});
   const [apiError, setApiError] = useState<string>("");
@@ -40,16 +42,20 @@ const LoginForm = () => {
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {
+      setIsloading(true);
       const response = loginUser(input);
       response
         .then((res) => {
           console.log(res.data);
         })
         .catch((err) => {
-          console.error(err);
-          setApiError(err.message);
+          console.log("error", err.response);
+          console.error(err.response.data.message);
+          setApiError(err.response.data.message);
         })
-        .finally(() => {});
+        .finally(() => {
+          setIsloading(false);
+        });
     }
   };
   return (
@@ -191,12 +197,19 @@ const LoginForm = () => {
           {apiError && (
             <span className="text-red-500 text-sm font-normal">{apiError}</span>
           )}
-          <button
-            className="bg-secondary w-full py-3 flex  justify-center  text-base font-medium"
-            type="submit"
-          >
-            Sign in
-          </button>
+          {isLoading ? (
+            <div className=" bg-secondary w-full py-3 flex  justify-center  text-base font-medium">
+              <Spinner />
+            </div>
+          ) : (
+            <button
+              className="bg-secondary w-full py-3 flex  justify-center  text-base font-medium"
+              type="submit"
+            >
+              Sign in
+            </button>
+          )}
+
           <button className="w-full py-3 flex  justify-center  text-base font-medium border border-[##CFD8E1]">
             <img src={googleIcon} alt="google Icon" />
             <span>Sign in with Google</span>
