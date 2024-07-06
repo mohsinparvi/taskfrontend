@@ -1,4 +1,9 @@
 export type LoginFormData = {
-  email: string;
+  username: string;
   password: string;
+};
+
+export type ValidationErrors = {
+  username?: string;
+  password?: string;
 };
