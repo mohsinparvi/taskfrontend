@@ -1,4 +1,3 @@
-import React from "react";
 import LoginForm from "../../login-form/login-form";
 import { loginRightColum } from "../../../assets/login";
 
