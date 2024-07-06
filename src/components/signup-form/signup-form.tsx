@@ -100,7 +100,7 @@ const SignupForm = () => {
             Join Blank for free today. No credit card required.
           </p>
         </div>
-        <form action="" className="space-y-4" onSubmit={handleSignupUser}>
+        <form action="" className="space-y-6" onSubmit={handleSignupUser}>
           <div className="space-y-2">
             <p className="text-base font-medium">Email</p>
             <input
@@ -171,7 +171,7 @@ const SignupForm = () => {
             className="bg-secondary w-full py-3 flex  justify-center  text-base font-medium"
             type="submit"
           >
-            Sign in
+            Continue
           </button>
           <button className="w-full py-3 flex  justify-center  text-base font-medium border border-[##CFD8E1]">
             <img src={googleIcon} alt="google Icon" />
@@ -180,7 +180,7 @@ const SignupForm = () => {
           <p className="text-base font-normal text-center text-[#3B4752]">
             Haven’t joined yet?{" "}
             <a href="" className="text-[#11161B] font-medium underline">
-              Sign in
+              Login
             </a>
           </p>
         </form>
